@@ -1,5 +1,6 @@
 import pygame
 
+from projectile import Projectile
 from player import Player
 from shield import ShieldGenerator
 
@@ -26,19 +27,26 @@ while not exit_game:
         if event.type == pygame.QUIT:
             exit_game = True
 
-    # movements with keypresses detection
+    # Player actions on keypresses detection
     keys_pressed = pygame.key.get_pressed()
     if keys_pressed[pygame.K_q]:
         player.move_left()
     if keys_pressed[pygame.K_d]:
         player.move_right()
+    if keys_pressed[pygame.K_SPACE]:
+        player.shoot()
 
     # -------------------- DISPLAY UPDATE --------------------
     screen.blit(bg, (0, 0))
-    player.draw(screen)
+
+    for projectile in player.projectiles:
+        projectile.move()
+        projectile.draw(screen)
 
     for shield in shields:
         shield.draw(screen)
+
+    player.draw(screen)
 
     # Update the display to the screen
     pygame.display.update()
