@@ -1,13 +1,14 @@
-import pygame.sprite
+import pygame
 
 
-class Player(pygame.sprite.Sprite):
+class Player:
     def __init__(self):
         super().__init__()
         self.image = pygame.image.load("player.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
         self.x = (1280 - self.image.get_width()) // 2
         self.y = 720 - self.image.get_height() - 10
+        self.health_points = 3
 
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))
@@ -21,3 +22,16 @@ class Player(pygame.sprite.Sprite):
         if self.x >= 1280 - self.image.get_width():
             return
         self.x += 5
+
+
+
+    def shoot(self):
+        # shoot 1 by 1
+        pass
+
+
+# 4* 11 enemies
+
+# 3 lives
+# Score
+# sound

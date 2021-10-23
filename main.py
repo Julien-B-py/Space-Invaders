@@ -1,6 +1,7 @@
 import pygame
 
 from player import Player
+from shield import ShieldGenerator
 
 pygame.init()
 
@@ -13,7 +14,9 @@ pygame.display.set_caption('Space Invaders')
 
 bg = pygame.image.load("bg.jpg")
 
+# Entities creation
 player = Player()
+shields = ShieldGenerator().generate_shields(3)
 
 exit_game = False
 while not exit_game:
@@ -33,6 +36,9 @@ while not exit_game:
     # -------------------- DISPLAY UPDATE --------------------
     screen.blit(bg, (0, 0))
     player.draw(screen)
+
+    for shield in shields:
+        shield.draw(screen)
 
     # Update the display to the screen
     pygame.display.update()
