@@ -7,6 +7,7 @@ class Sound:
         # Create a dict of new Sound objects from audio files
         self.sounds = {
             'explosion': pygame.mixer.Sound("sounds/explosion.ogg"),
+            'shoot': pygame.mixer.Sound("sounds/shoot.ogg"),
         }
 
     def play(self, sound_name):

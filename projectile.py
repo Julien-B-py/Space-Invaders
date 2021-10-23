@@ -18,10 +18,13 @@ class Projectile:
     def move(self):
         if self.y <= 0 - self.image.get_height():
             self.delete()
+            self.explode()
         self.y -= 8
 
     def delete(self):
         self.player.projectiles.remove(self)
+
+    def explode(self):
         # TEST SPRITES
         # Create a Sprite object centered on x,y position
         explosion = Explosion(self.x, 100)

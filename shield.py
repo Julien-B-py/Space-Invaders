@@ -5,7 +5,6 @@ from config import SCREEN
 
 class Shield:
     def __init__(self, x):
-        super().__init__()
         self.image = pygame.image.load("shield.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2))
         self.width = self.image.get_width()

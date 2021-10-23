@@ -6,7 +6,6 @@ from projectile import Projectile
 
 class Player:
     def __init__(self,explosions_grp, sound):
-        super().__init__()
         self.image = pygame.image.load("player.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
         self.x = (SCREEN.get("width") - self.image.get_width()) // 2
@@ -33,8 +32,9 @@ class Player:
     def shoot(self):
         if not self.projectiles:
             self.projectiles.append(Projectile(self))
+            self.sound.play('shoot')
 
 # 4* 11 enemies
 # 3 lives
 # Score
-# sound
+
