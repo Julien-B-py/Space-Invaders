@@ -15,6 +15,7 @@ class Alien(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+
         self.velocity = 1
         Alien.entities_list.append(self)
 

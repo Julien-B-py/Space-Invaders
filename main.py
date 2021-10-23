@@ -43,7 +43,7 @@ for loc_x in ALIENS.get("x_locs"):
 
 
 # Entities creation
-player = Player(explosions_grp, sound)
+player = Player(explosions_grp, sound, aliens)
 shields = ShieldGenerator().generate_shields()
 
 exit_game = False
