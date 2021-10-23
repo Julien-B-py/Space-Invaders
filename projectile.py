@@ -25,6 +25,7 @@ class Projectile:
             if alien.rect.colliderect(self.rect):
                 self.delete()
                 self.explode()
+                alien.destroy()
 
 
 

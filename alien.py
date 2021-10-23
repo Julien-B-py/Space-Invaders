@@ -6,7 +6,7 @@ class Alien(pygame.sprite.Sprite):
     changed_direction = False
     dir_change_cpt = 0
 
-    def __init__(self, x, y, sound):
+    def __init__(self, x, y, sound, aliens_grp):
         super().__init__()
         self.sound = sound
         self.image = pygame.image.load('sprites/alien.png')
@@ -15,6 +15,7 @@ class Alien(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+        self.aliens_grp = aliens_grp
 
         self.velocity = 1
         Alien.entities_list.append(self)
@@ -49,3 +50,7 @@ class Alien(pygame.sprite.Sprite):
     def is_hitting_wall(self):
         if self.rect.x >= 1280 - self.rect.width or self.rect.x <= 0:
             return True
+
+    def destroy(self):
+        Alien.entities_list.remove(self)
+        self.aliens_grp.remove(self)

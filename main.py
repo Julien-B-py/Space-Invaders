@@ -36,7 +36,7 @@ aliens_grp = pygame.sprite.Group()
 for loc_x in ALIENS.get("x_locs"):
     for loc_y in ALIENS.get("y_locs"):
         # Create a new Alien Sprite
-        alien = Alien(loc_x, loc_y, sound)
+        alien = Alien(loc_x, loc_y, sound, aliens_grp)
         # Add the Sprite to the Group
         aliens_grp.add(alien)
 
