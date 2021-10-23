@@ -1,5 +1,6 @@
 import pygame
 
+from alien import Alien
 from config import SCREEN
 from explosion import Explosion
 from player import Player
@@ -20,6 +21,15 @@ bg = pygame.image.load("bg.jpg")
 # Create a container for our explosions Sprite objects
 explosions_grp = pygame.sprite.Group()
 
+# TEST ALIEN
+aliens = []
+aliens_grp = pygame.sprite.Group()
+alien_locs = list(range(50, 1000, 100))
+for loc in alien_locs:
+    alien = Alien(loc, 50)
+    # Add the Sprite to the Group
+    aliens_grp.add(alien)
+    aliens.append(alien)
 
 sound = Sound()
 
@@ -51,6 +61,11 @@ while not exit_game:
     explosions_grp.draw(screen)
     # Calls the update method on contained Sprites to load the next image
     explosions_grp.update()
+
+    for alien in aliens:
+        alien.move()
+
+    aliens_grp.draw(screen)
 
     for projectile in player.projectiles:
         projectile.move()
