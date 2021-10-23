@@ -1,11 +1,11 @@
 import pygame
 
 from alien import Alien
-from config import SCREEN
-from explosion import Explosion
 from player import Player
 from shield import ShieldGenerator
 from sound import Sound
+
+from config import ALIENS, SCREEN
 
 pygame.init()
 
@@ -18,20 +18,29 @@ pygame.display.set_caption("Space Invaders")
 
 bg = pygame.image.load("bg.jpg")
 
-# Create a container for our explosions Sprite objects
-explosions_grp = pygame.sprite.Group()
 
-# TEST ALIEN
-aliens = []
-aliens_grp = pygame.sprite.Group()
-alien_locs = list(range(50, 1000, 100))
-for loc in alien_locs:
-    alien = Alien(loc, 50)
-    # Add the Sprite to the Group
-    aliens_grp.add(alien)
-    aliens.append(alien)
+
 
 sound = Sound()
+
+
+# Create a container for our explosions Sprites objects
+explosions_grp = pygame.sprite.Group()
+
+# -------------------- ALIENS --------------------
+# Store the class attribute entities_list in var aliens
+aliens = Alien.entities_list
+# Create a container for our aliens Sprites objects
+aliens_grp = pygame.sprite.Group()
+# Generate all Aliens objects with configured x, y locations
+for loc_x in ALIENS.get("x_locs"):
+    for loc_y in ALIENS.get("y_locs"):
+        # Create a new Alien Sprite
+        alien = Alien(loc_x, loc_y, sound)
+        # Add the Sprite to the Group
+        aliens_grp.add(alien)
+
+
 
 # Entities creation
 player = Player(explosions_grp, sound)
@@ -57,7 +66,7 @@ while not exit_game:
     # -------------------- DISPLAY UPDATE --------------------
     screen.blit(bg, (0, 0))
 
-    # Draws the contained Sprites to the screen
+    # Draws the explosions Sprites contained in the group to the screen
     explosions_grp.draw(screen)
     # Calls the update method on contained Sprites to load the next image
     explosions_grp.update()
@@ -65,6 +74,7 @@ while not exit_game:
     for alien in aliens:
         alien.move()
 
+    # Draws the aliens Sprites contained in the group to the screen
     aliens_grp.draw(screen)
 
     for projectile in player.projectiles:

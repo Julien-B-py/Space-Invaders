@@ -34,7 +34,7 @@ class Player:
             self.projectiles.append(Projectile(self))
             self.sound.play('shoot')
 
-# 4* 11 enemies
+
 # 3 lives
 # Score
 
