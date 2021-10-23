@@ -5,7 +5,7 @@ from projectile import Projectile
 
 
 class Player:
-    def __init__(self):
+    def __init__(self,explosions_grp, sound):
         super().__init__()
         self.image = pygame.image.load("player.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
@@ -13,6 +13,9 @@ class Player:
         self.y = SCREEN.get("height") - self.image.get_height() - 10
         self.health_points = 3
         self.projectiles = []
+
+        self.explosions_grp = explosions_grp
+        self.sound = sound
 
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))

@@ -1,6 +1,7 @@
 import pygame
 
 from config import SCREEN
+from explosion import Explosion
 
 
 class Projectile:
@@ -21,3 +22,9 @@ class Projectile:
 
     def delete(self):
         self.player.projectiles.remove(self)
+        # TEST SPRITES
+        # Create a Sprite object centered on x,y position
+        explosion = Explosion(self.x, 100)
+        # Add the Sprite to the Group
+        self.player.explosions_grp.add(explosion)
+        self.player.sound.play('explosion')

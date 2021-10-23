@@ -4,6 +4,7 @@ from config import SCREEN
 from explosion import Explosion
 from player import Player
 from shield import ShieldGenerator
+from sound import Sound
 
 pygame.init()
 
@@ -16,12 +17,15 @@ pygame.display.set_caption("Space Invaders")
 
 bg = pygame.image.load("bg.jpg")
 
-# Entities creation
-player = Player()
-shields = ShieldGenerator().generate_shields()
-
 # Create a container for our explosions Sprite objects
 explosions_grp = pygame.sprite.Group()
+
+
+sound = Sound()
+
+# Entities creation
+player = Player(explosions_grp, sound)
+shields = ShieldGenerator().generate_shields()
 
 exit_game = False
 while not exit_game:
@@ -39,12 +43,6 @@ while not exit_game:
         player.move_right()
     if keys_pressed[pygame.K_SPACE]:
         player.shoot()
-
-        # TEST SPRITES
-        # Create a Sprite object centered on x,y position
-        explosion = Explosion(200, 100)
-        # Add the Sprite to the Group
-        explosions_grp.add(explosion)
 
     # -------------------- DISPLAY UPDATE --------------------
     screen.blit(bg, (0, 0))
