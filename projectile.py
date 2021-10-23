@@ -16,6 +16,9 @@ class Projectile:
 
         self.player = player
 
+        self.velocity = 8
+        # self.velocity = 40 # FOR TESTING
+
     def draw(self, surface):
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -27,16 +30,10 @@ class Projectile:
                 self.explode()
                 alien.destroy()
 
-
-
         if self.rect.y <= 0 - self.image.get_height():
             self.delete()
-            self.explode()
 
-
-
-
-        self.rect.y -= 8
+        self.rect.y -= self.velocity
 
     def delete(self):
         self.player.projectiles.remove(self)

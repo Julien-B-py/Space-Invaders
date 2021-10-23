@@ -6,6 +6,9 @@ class Alien(pygame.sprite.Sprite):
     changed_direction = False
     dir_change_cpt = 0
 
+    velocity = 1
+    move_down_required = False
+
     def __init__(self, x, y, sound, aliens_grp):
         super().__init__()
         self.sound = sound
@@ -17,39 +20,16 @@ class Alien(pygame.sprite.Sprite):
 
         self.aliens_grp = aliens_grp
 
-        self.velocity = 1
         Alien.entities_list.append(self)
 
     def move(self):
-        if self.is_hitting_wall():
-
-            if not Alien.changed_direction:
-                for alien in self.entities_list:
-                    alien.change_direction()
-                    alien.move_down()
-
-                # self.change_direction()
-                # self.move_down()
-                self.sound.play("move_down")
-                Alien.changed_direction = True
-
-            else:
-                Alien.dir_change_cpt += 1
-                if Alien.dir_change_cpt > 5:
-                    Alien.changed_direction = False
-                    Alien.dir_change_cpt = 0
-
-        self.rect.x += self.velocity
-
-    def change_direction(self):
-        self.velocity = -self.velocity
+        self.rect.x += Alien.velocity
 
     def move_down(self):
         self.rect.y += 25
 
-    def is_hitting_wall(self):
-        if self.rect.x >= 1280 - self.rect.width or self.rect.x <= 0:
-            return True
+    def is_hitting_a_wall(self):
+        return self.rect.x >= 1280 - self.rect.width or self.rect.x <= 0
 
     def destroy(self):
         Alien.entities_list.remove(self)

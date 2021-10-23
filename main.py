@@ -18,11 +18,10 @@ pygame.display.set_caption("Space Invaders")
 
 bg = pygame.image.load("bg.jpg")
 
-
-
+myfont = pygame.font.SysFont('Comic Sans MS', 60)
+text_surface = myfont.render('YOU WIN!', True, (255, 255, 255))
 
 sound = Sound()
-
 
 # Create a container for our explosions Sprites objects
 explosions_grp = pygame.sprite.Group()
@@ -40,51 +39,72 @@ for loc_x in ALIENS.get("x_locs"):
         # Add the Sprite to the Group
         aliens_grp.add(alien)
 
-
-
 # Entities creation
 player = Player(explosions_grp, sound, aliens)
 shields = ShieldGenerator().generate_shields()
 
+player_wins = False
 exit_game = False
 while not exit_game:
 
+    # -------------------- USER INPUTS --------------------
     # Quit the game if the user click the close button
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit_game = True
 
-    # Player actions on keypresses detection
-    keys_pressed = pygame.key.get_pressed()
-    if keys_pressed[pygame.K_q]:
-        player.move_left()
-    if keys_pressed[pygame.K_d]:
-        player.move_right()
-    if keys_pressed[pygame.K_SPACE]:
-        player.shoot()
+    if not player_wins:
 
-    # -------------------- DISPLAY UPDATE --------------------
-    screen.blit(bg, (0, 0))
+        # Player actions on keypresses detection
+        keys_pressed = pygame.key.get_pressed()
+        if keys_pressed[pygame.K_q]:
+            player.move_left()
+        if keys_pressed[pygame.K_d]:
+            player.move_right()
+        if keys_pressed[pygame.K_SPACE]:
+            player.shoot()
 
-    # Draws the explosions Sprites contained in the group to the screen
-    explosions_grp.draw(screen)
-    # Calls the update method on contained Sprites to load the next image
-    explosions_grp.update()
+        # -------------------- DISPLAY UPDATE --------------------
+        screen.blit(bg, (0, 0))
 
-    for alien in aliens:
-        alien.move()
+        # Draws the explosions Sprites contained in the group to the screen
+        explosions_grp.draw(screen)
+        # Calls the update method on contained Sprites to load the next image
+        explosions_grp.update()
 
-    # Draws the aliens Sprites contained in the group to the screen
-    aliens_grp.draw(screen)
+        if not aliens:
+            player_wins = True
 
-    for projectile in player.projectiles:
-        projectile.move()
-        projectile.draw(screen)
+        for alien in aliens:
+            alien.move()
 
-    for shield in shields:
-        shield.draw(screen)
+        for alien in aliens:
+            if alien.is_hitting_a_wall():
+                Alien.velocity = -Alien.velocity
+                Alien.move_down_required = True
+                break
 
-    player.draw(screen)
+        if Alien.move_down_required:
+            for alien in aliens:
+                alien.move_down()
+            Alien.move_down_required = False
+
+        # Draws the aliens Sprites contained in the group to the screen
+        aliens_grp.draw(screen)
+
+        for projectile in player.projectiles:
+            projectile.move()
+            projectile.draw(screen)
+
+        for shield in shields:
+            shield.draw(screen)
+
+        player.draw(screen)
+
+    else:
+
+        screen.blit(text_surface, ((SCREEN.get('width') - text_surface.get_width()) / 2,
+                                   (SCREEN.get('height') - text_surface.get_height()) / 2))
 
     # Update the display to the screen
     pygame.display.update()
