@@ -1,5 +1,7 @@
 import pygame
 
+from config import SCREEN
+
 
 class Shield:
     def __init__(self, x):
@@ -8,7 +10,7 @@ class Shield:
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2))
         self.width = self.image.get_width()
         self.x = x
-        self.y = 610
+        self.y = SCREEN.get("height")-110
         self.health_points = 20
 
     def draw(self, surface):
@@ -28,7 +30,7 @@ class ShieldGenerator:
 
         qty = min(qty, 8)
 
-        space_between_shields = (1280 - qty * self.shield_width) / (qty + 1)
+        space_between_shields = (SCREEN.get("width") - qty * self.shield_width) / (qty + 1)
 
         created_shields = 0
         all_shields = []
@@ -38,7 +40,7 @@ class ShieldGenerator:
             x = round(space_between_shields + (created_shields * (self.shield_width + space_between_shields)))
 
             # Out of screen
-            if x >= 1280:
+            if x >= SCREEN.get("width"):
                 break
 
             all_shields.append(Shield(x=x))

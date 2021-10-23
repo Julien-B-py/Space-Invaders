@@ -1,5 +1,6 @@
 import pygame
 
+from config import SCREEN
 from projectile import Projectile
 
 
@@ -8,8 +9,8 @@ class Player:
         super().__init__()
         self.image = pygame.image.load("player.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
-        self.x = (1280 - self.image.get_width()) // 2
-        self.y = 720 - self.image.get_height() - 10
+        self.x = (SCREEN.get("width") - self.image.get_width()) // 2
+        self.y = SCREEN.get("height") - self.image.get_height() - 10
         self.health_points = 3
         self.projectiles = []
 
@@ -22,7 +23,7 @@ class Player:
         self.x -= 5
 
     def move_right(self):
-        if self.x >= 1280 - self.image.get_width():
+        if self.x >= SCREEN.get("width") - self.image.get_width():
             return
         self.x += 5
 

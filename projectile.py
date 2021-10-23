@@ -1,12 +1,14 @@
 import pygame
 
+from config import SCREEN
+
 
 class Projectile:
     def __init__(self, player):
         self.image = pygame.image.load("ammo.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
         self.x = player.x + 30
-        self.y = 720 - self.image.get_height() - 20
+        self.y = SCREEN.get("height") - self.image.get_height() - 20
         self.player = player
 
     def draw(self, surface):
