@@ -7,7 +7,7 @@ from explosion import Explosion
 
 
 class Projectile:
-    def __init__(self, owner, x, y, vel):
+    def __init__(self, owner, x, y, vel, _player=None):
         self.image = pygame.image.load("ammo.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
 
@@ -16,6 +16,8 @@ class Projectile:
         self.rect.center = (x + 30, y)
 
         self.owner = owner
+
+        self._player = _player
 
         self.velocity = vel
         # self.velocity = 40 # FOR TESTING
@@ -27,6 +29,8 @@ class Projectile:
 
         # If the bullet has been shot by an alien
         if isinstance(self.owner, alien.Alien):
+
+
             # If the bullet is out of the screen
             if self.rect.y >= SCREEN.get('height'):
                 self.delete()

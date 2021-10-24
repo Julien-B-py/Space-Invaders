@@ -35,7 +35,7 @@ aliens_grp = pygame.sprite.Group()
 for loc_x in ALIENS.get("x_locs"):
     for loc_y in ALIENS.get("y_locs"):
         # Create a new Alien Sprite
-        alien = Alien(loc_x, loc_y, sound, aliens_grp)
+        alien = Alien(loc_x, loc_y, sound, aliens_grp, explosions_grp)
         # Add the Sprite to the Group
         aliens_grp.add(alien)
 
@@ -46,6 +46,8 @@ shields = ShieldGenerator().generate_shields()
 player_wins = False
 exit_game = False
 while not exit_game:
+
+    print(player.health_points)
 
     # -------------------- USER INPUTS --------------------
     # Quit the game if the user click the close button
@@ -99,6 +101,13 @@ while not exit_game:
 
         for alien in aliens:
             for projectile in alien.projectiles:
+
+                if player.rect.x <= projectile.rect.x <= player.rect.x + player.rect.width:
+                    if player.rect.y <= projectile.rect.y <= player.rect.y + player.rect.height:
+                        projectile.explode()
+                        projectile.delete()
+                        player.take_damage()
+
                 projectile.move()
                 projectile.draw(screen)
 
