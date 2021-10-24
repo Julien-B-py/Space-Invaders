@@ -2,6 +2,7 @@ import random
 
 import pygame.sprite
 
+from config import ALIENS
 from projectile import Projectile
 
 
@@ -18,6 +19,17 @@ class Alien(pygame.sprite.Sprite):
         self.sound = sound
         self.image = pygame.image.load("img/sprites/alien.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
+
+        self.points_value = random.choice([10, 20, 30])
+
+        # -------------------- SPRITE COLORATION --------------------
+        # Generate an image filled with a solid color having the same size as the Sprite:
+        colouredImage = pygame.Surface(self.image.get_size())
+        # Fill the image with a color depending on the random points value determined above
+        colouredImage.fill(ALIENS.get('colors').get(self.points_value))
+        # Draw the colored image onto the Sprite and use special_flags to specify the blending mode (similar to PS)
+        self.image.blit(colouredImage, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        # -----------------------------------------------------------
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -27,7 +39,6 @@ class Alien(pygame.sprite.Sprite):
         self.game = game
 
         self.projectiles = []
-        self.points_value = random.choice([10, 20, 30])
 
         Alien.entities_list.append(self)
 

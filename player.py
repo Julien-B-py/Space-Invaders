@@ -8,9 +8,12 @@ class Player:
     def __init__(self, explosions_grp, sound, aliens):
         self.image = pygame.image.load("img/sprites/player.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
+        # Create a rect with the size of the player image
         self.rect = self.image.get_rect()
+        # And immediately set it's x, y cords.
         self.rect.x = (SCREEN.get("width") - self.image.get_width()) // 2
         self.rect.y = SCREEN.get("height") - self.image.get_height() - 10
+
         self.health_points = 5
         self.projectiles = []
 

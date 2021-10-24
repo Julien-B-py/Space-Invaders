@@ -29,8 +29,8 @@ aliens = Alien.entities_list
 # Create a container for our aliens Sprites objects
 aliens_grp = pygame.sprite.Group()
 # Generate all Aliens objects with configured x, y locations
-for loc_x in ALIENS.get("x_locs"):
-    for loc_y in ALIENS.get("y_locs"):
+for loc_x in ALIENS.get("x_locations"):
+    for loc_y in ALIENS.get("y_locations"):
         # Create a new Alien Sprite
         alien = Alien(loc_x, loc_y, sound, aliens_grp, explosions_grp, game)
         # Add the Sprite to the Group
@@ -49,6 +49,7 @@ while not game.exit:
         if event.type == pygame.QUIT:
             game.exit = True
 
+    # If game is not over (there still are enemies or player still has health points)
     if not game.is_over:
 
         # Player actions on keypresses detection
@@ -119,6 +120,7 @@ while not game.exit:
         game.display_player_hp(screen, player.health_points)
         game.display_player_score(screen)
 
+    # If game over (there are no enemy left or player has no more health points)
     else:
 
         game.display_end_game_message(screen, player.health_points)
