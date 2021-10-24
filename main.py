@@ -18,8 +18,7 @@ pygame.display.set_caption("Space Invaders")
 
 bg = pygame.image.load("bg.jpg")
 
-myfont = pygame.font.SysFont('Comic Sans MS', 60)
-text_surface = myfont.render('YOU WIN!', True, (255, 255, 255))
+end_text = 'YOU WIN!'
 
 sound = Sound()
 
@@ -43,11 +42,11 @@ for loc_x in ALIENS.get("x_locs"):
 player = Player(explosions_grp, sound, aliens)
 shields = ShieldGenerator().generate_shields()
 
-player_wins = False
+game_over = False
 exit_game = False
 while not exit_game:
 
-    print(player.health_points)
+
 
     # -------------------- USER INPUTS --------------------
     # Quit the game if the user click the close button
@@ -55,7 +54,7 @@ while not exit_game:
         if event.type == pygame.QUIT:
             exit_game = True
 
-    if not player_wins:
+    if not game_over:
 
         # Player actions on keypresses detection
         keys_pressed = pygame.key.get_pressed()
@@ -74,8 +73,8 @@ while not exit_game:
         # Calls the update method on contained Sprites to load the next image
         explosions_grp.update()
 
-        if not aliens:
-            player_wins = True
+        if not aliens or player.health_points == 0:
+            game_over = True
 
         for alien in aliens:
             alien.move()
@@ -102,11 +101,17 @@ while not exit_game:
         for alien in aliens:
             for projectile in alien.projectiles:
 
-                if player.rect.x <= projectile.rect.x <= player.rect.x + player.rect.width:
-                    if player.rect.y <= projectile.rect.y <= player.rect.y + player.rect.height:
-                        projectile.explode()
-                        projectile.delete()
-                        player.take_damage()
+                if (
+                        player.rect.x
+                        <= projectile.rect.x
+                        <= player.rect.x + player.rect.width
+                        and player.rect.y
+                        <= projectile.rect.y
+                        <= player.rect.y + player.rect.height
+                ):
+                    projectile.explode()
+                    projectile.delete()
+                    player.take_damage()
 
                 projectile.move()
                 projectile.draw(screen)
@@ -116,10 +121,26 @@ while not exit_game:
 
         player.draw(screen)
 
+        myfont2 = pygame.font.SysFont('Comic Sans MS', 20)
+        hp_text_surface = myfont2.render(f'HP: {player.health_points}/5', True, (255, 255, 255))
+        screen.blit(hp_text_surface, (10,
+                                      10))
+
+
+
+
+
     else:
 
+        if player.health_points == 0:
+            end_text = 'YOU LOSE!'
+
+        myfont2 = pygame.font.SysFont('Comic Sans MS', 60)
+        text_surface = myfont2.render(end_text, True, (255, 255, 255))
         screen.blit(text_surface, ((SCREEN.get('width') - text_surface.get_width()) / 2,
                                    (SCREEN.get('height') - text_surface.get_height()) / 2))
+
+
 
     # Update the display to the screen
     pygame.display.update()

@@ -42,11 +42,9 @@ class Alien(pygame.sprite.Sprite):
         Alien.entities_list.remove(self)
         self.aliens_grp.remove(self)
 
-
     def shoot(self):
-        shoot_var = random.randint(1,3000)
-        if shoot_var == 3000:
-            if not self.projectiles:
-                # self.projectiles.append(Projectile(self))
-                self.projectiles.append(Projectile(owner=self, x=self.rect.x, y=self.rect.y, vel=-8))
-                self.sound.play('shoot')
+        shoot_var = random.randint(1, 1500)
+        if shoot_var == 1500 and not self.projectiles:
+            # self.projectiles.append(Projectile(self))
+            self.projectiles.append(Projectile(owner=self, x=self.rect.x, y=self.rect.y, vel=-8))
+            self.sound.play('shoot')
