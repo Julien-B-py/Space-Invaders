@@ -5,7 +5,7 @@ from config import SCREEN
 
 class Shield:
     def __init__(self, x):
-        self.image = pygame.image.load("shield.png")
+        self.image = pygame.image.load("img/sprites/shield.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2))
         self.width = self.image.get_width()
         self.x = x
@@ -18,7 +18,7 @@ class Shield:
 
 class ShieldGenerator:
     def __init__(self):
-        self.image = pygame.image.load("shield.png")
+        self.image = pygame.image.load("img/sprites/shield.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2))
         self.shield_width = self.image.get_width()
 

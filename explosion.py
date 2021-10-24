@@ -18,7 +18,7 @@ class Explosion(pygame.sprite.Sprite):
         self.rect.center = (x, y)
 
     def update(self):
-        # If we didn't reach the last image of the animation
+        # If we didn"t reach the last image of the animation
         if self.current_index < len(self.images) - 1:
             # Increment the index value to update and display the next image of the animation
             self.current_index += 1
@@ -37,7 +37,7 @@ def load_images():
         # Format the number with leading zeros to display 3 digits
         number = f"{number:03d}"
         # Load the image
-        img = pygame.image.load(f'sprites/tile{number}.png')
+        img = pygame.image.load(f"img/sprites/tile{number}.png")
         # Add the img to the list
         images.append(img)
 

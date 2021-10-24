@@ -7,9 +7,15 @@ from explosion import Explosion
 
 
 class Projectile:
-    def __init__(self, owner, x, y, vel, _player=None):
-        self.image = pygame.image.load("ammo.png")
+    def __init__(self, owner, x, y, vel):
+
+        self.velocity = vel
+
+        self.image = pygame.image.load("img/sprites/ammo.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
+
+        if self.velocity < 0:
+            self.image = pygame.transform.rotate(self.image, 180)
 
         self.rect = self.image.get_rect()
 
@@ -17,9 +23,6 @@ class Projectile:
 
         self.owner = owner
 
-        self._player = _player
-
-        self.velocity = vel
         # self.velocity = 40 # FOR TESTING
 
     def draw(self, surface):
@@ -31,7 +34,7 @@ class Projectile:
         if isinstance(self.owner, alien.Alien):
 
             # If the bullet is out of the screen
-            if self.rect.y >= SCREEN.get('height'):
+            if self.rect.y >= SCREEN.get("height"):
                 self.delete()
 
         # If player shot a bullet
@@ -41,7 +44,6 @@ class Projectile:
                     self.delete()
                     self.explode()
                     _alien.destroy()
-
 
             if self.rect.y <= 0 - self.image.get_height():
                 self.delete()
@@ -58,4 +60,4 @@ class Projectile:
         explosion = Explosion(self.rect.x, self.rect.y)
         # Add the Sprite to the Group
         self.owner.explosions_grp.add(explosion)
-        self.owner.sound.play('explosion')
+        self.owner.sound.play("explosion")

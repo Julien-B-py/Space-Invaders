@@ -12,21 +12,16 @@ pygame.init()
 
 # Create a clock object to track time
 clock = pygame.time.Clock()
-
+# Set game window dimensions
 screen = pygame.display.set_mode((SCREEN.get("width"), SCREEN.get("height")))
 # Set the title
 pygame.display.set_caption("Space Invaders")
 
-bg = pygame.image.load("bg.jpg")
-
-end_text = 'YOU WIN!'
-
+game = Game()
 sound = Sound()
 
 # Create a container for our explosions Sprites objects
 explosions_grp = pygame.sprite.Group()
-
-game = Game()
 
 # -------------------- ALIENS --------------------
 # Store the class attribute entities_list in var aliens
@@ -45,17 +40,16 @@ for loc_x in ALIENS.get("x_locs"):
 player = Player(explosions_grp, sound, aliens)
 shields = ShieldGenerator().generate_shields()
 
-game_over = False
-exit_game = False
-while not exit_game:
+# -------------------- GAME MAIN LOOP --------------------
+while not game.exit:
 
     # -------------------- USER INPUTS --------------------
     # Quit the game if the user click the close button
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            exit_game = True
+            game.exit = True
 
-    if not game_over:
+    if not game.is_over:
 
         # Player actions on keypresses detection
         keys_pressed = pygame.key.get_pressed()
@@ -67,7 +61,7 @@ while not exit_game:
             player.shoot()
 
         # -------------------- DISPLAY UPDATE --------------------
-        screen.blit(bg, (0, 0))
+        screen.blit(game.background, (0, 0))
 
         # Draws the explosions Sprites contained in the group to the screen
         explosions_grp.draw(screen)
@@ -75,7 +69,7 @@ while not exit_game:
         explosions_grp.update()
 
         if not aliens or player.health_points == 0:
-            game_over = True
+            game.is_over = True
 
         for alien in aliens:
             alien.move()
@@ -122,25 +116,12 @@ while not exit_game:
 
         player.draw(screen)
 
-        myfont2 = pygame.font.SysFont('Comic Sans MS', 20)
-        hp_text_surface = myfont2.render(f'HP: {player.health_points}/5', True, (255, 255, 255))
-        screen.blit(hp_text_surface, (10,
-                                      10))
-
-        score_surface = myfont2.render(f'Score: {str(game.score)}', True, (255, 255, 255))
-        screen.blit(score_surface, ((SCREEN.get('width') - score_surface.get_width()) / 2,
-                                    10))
-
+        game.display_player_hp(screen, player.health_points)
+        game.display_player_score(screen)
 
     else:
 
-        if player.health_points == 0:
-            end_text = 'YOU LOSE!'
-
-        myfont2 = pygame.font.SysFont('Comic Sans MS', 60)
-        text_surface = myfont2.render(end_text, True, (255, 255, 255))
-        screen.blit(text_surface, ((SCREEN.get('width') - text_surface.get_width()) / 2,
-                                   (SCREEN.get('height') - text_surface.get_height()) / 2))
+        game.display_end_game_message(screen, player.health_points)
 
     # Update the display to the screen
     pygame.display.update()
