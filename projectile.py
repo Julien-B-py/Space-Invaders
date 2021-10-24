@@ -30,7 +30,6 @@ class Projectile:
         # If the bullet has been shot by an alien
         if isinstance(self.owner, alien.Alien):
 
-
             # If the bullet is out of the screen
             if self.rect.y >= SCREEN.get('height'):
                 self.delete()
@@ -42,6 +41,7 @@ class Projectile:
                     self.delete()
                     self.explode()
                     _alien.destroy()
+
 
             if self.rect.y <= 0 - self.image.get_height():
                 self.delete()

@@ -1,6 +1,7 @@
 import pygame
 
 from alien import Alien
+from game import Game
 from player import Player
 from shield import ShieldGenerator
 from sound import Sound
@@ -25,6 +26,8 @@ sound = Sound()
 # Create a container for our explosions Sprites objects
 explosions_grp = pygame.sprite.Group()
 
+game = Game()
+
 # -------------------- ALIENS --------------------
 # Store the class attribute entities_list in var aliens
 aliens = Alien.entities_list
@@ -34,7 +37,7 @@ aliens_grp = pygame.sprite.Group()
 for loc_x in ALIENS.get("x_locs"):
     for loc_y in ALIENS.get("y_locs"):
         # Create a new Alien Sprite
-        alien = Alien(loc_x, loc_y, sound, aliens_grp, explosions_grp)
+        alien = Alien(loc_x, loc_y, sound, aliens_grp, explosions_grp, game)
         # Add the Sprite to the Group
         aliens_grp.add(alien)
 
@@ -45,8 +48,6 @@ shields = ShieldGenerator().generate_shields()
 game_over = False
 exit_game = False
 while not exit_game:
-
-
 
     # -------------------- USER INPUTS --------------------
     # Quit the game if the user click the close button
@@ -126,8 +127,9 @@ while not exit_game:
         screen.blit(hp_text_surface, (10,
                                       10))
 
-
-
+        score_surface = myfont2.render(f'Score: {str(game.score)}', True, (255, 255, 255))
+        screen.blit(score_surface, ((SCREEN.get('width') - score_surface.get_width()) / 2,
+                                    10))
 
 
     else:
@@ -139,8 +141,6 @@ while not exit_game:
         text_surface = myfont2.render(end_text, True, (255, 255, 255))
         screen.blit(text_surface, ((SCREEN.get('width') - text_surface.get_width()) / 2,
                                    (SCREEN.get('height') - text_surface.get_height()) / 2))
-
-
 
     # Update the display to the screen
     pygame.display.update()

@@ -13,7 +13,7 @@ class Alien(pygame.sprite.Sprite):
     velocity = 1
     move_down_required = False
 
-    def __init__(self, x, y, sound, aliens_grp, explosions_grp):
+    def __init__(self, x, y, sound, aliens_grp, explosions_grp, game):
         super().__init__()
         self.sound = sound
         self.image = pygame.image.load('sprites/alien.png')
@@ -24,8 +24,10 @@ class Alien(pygame.sprite.Sprite):
 
         self.aliens_grp = aliens_grp
         self.explosions_grp = explosions_grp
+        self.game = game
 
         self.projectiles = []
+        self.points_value = random.choice([10,20,30])
 
         Alien.entities_list.append(self)
 
@@ -41,10 +43,10 @@ class Alien(pygame.sprite.Sprite):
     def destroy(self):
         Alien.entities_list.remove(self)
         self.aliens_grp.remove(self)
+        self.game.increment_score(self.points_value)
 
     def shoot(self):
         shoot_var = random.randint(1, 1500)
         if shoot_var == 1500 and not self.projectiles:
-            # self.projectiles.append(Projectile(self))
             self.projectiles.append(Projectile(owner=self, x=self.rect.x, y=self.rect.y, vel=-8))
             self.sound.play('shoot')
