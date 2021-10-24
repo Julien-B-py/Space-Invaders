@@ -43,9 +43,9 @@ class Alien(pygame.sprite.Sprite):
 
 
     def shoot(self):
-        shoot_var = random.randint(1,5000)
+        shoot_var = random.randint(1,4000)
         if shoot_var == 4000:
             # if not self.projectiles:
                 # self.projectiles.append(Projectile(self))
+            self.projectiles.append(Projectile(owner=self, x=self.rect.x, y=self.rect.y, vel=-8))
             self.sound.play('shoot')
-            print(f'{self.rect.x,self.rect.y} SHOOT')

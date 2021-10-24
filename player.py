@@ -5,7 +5,7 @@ from projectile import Projectile
 
 
 class Player:
-    def __init__(self,explosions_grp, sound, aliens):
+    def __init__(self, explosions_grp, sound, aliens):
         self.image = pygame.image.load("player.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 4, self.image.get_height() // 4))
         self.x = (SCREEN.get("width") - self.image.get_width()) // 2
@@ -32,10 +32,8 @@ class Player:
 
     def shoot(self):
         if not self.projectiles:
-            self.projectiles.append(Projectile(self))
+            self.projectiles.append(Projectile(owner=self, x=self.x, y=self.y, vel=8))
             self.sound.play('shoot')
-
 
 # 3 lives
 # Score
-

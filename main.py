@@ -97,6 +97,11 @@ while not exit_game:
             projectile.move()
             projectile.draw(screen)
 
+        for alien in aliens:
+            for projectile in alien.projectiles:
+                projectile.move()
+                projectile.draw(screen)
+
         for shield in shields:
             shield.draw(screen)
 
