@@ -13,7 +13,6 @@ class Projectile:
 
         self.rect.x = player.x + 30
         self.rect.y = SCREEN.get("height") - self.image.get_height() - 20
-
         self.player = player
 
         self.velocity = 8

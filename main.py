@@ -77,6 +77,7 @@ while not exit_game:
 
         for alien in aliens:
             alien.move()
+            alien.shoot()
 
         for alien in aliens:
             if alien.is_hitting_a_wall():

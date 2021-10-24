@@ -1,4 +1,8 @@
+import random
+
 import pygame.sprite
+
+from projectile import Projectile
 
 
 class Alien(pygame.sprite.Sprite):
@@ -20,6 +24,8 @@ class Alien(pygame.sprite.Sprite):
 
         self.aliens_grp = aliens_grp
 
+        self.projectiles = []
+
         Alien.entities_list.append(self)
 
     def move(self):
@@ -34,3 +40,12 @@ class Alien(pygame.sprite.Sprite):
     def destroy(self):
         Alien.entities_list.remove(self)
         self.aliens_grp.remove(self)
+
+
+    def shoot(self):
+        shoot_var = random.randint(1,5000)
+        if shoot_var == 4000:
+            # if not self.projectiles:
+                # self.projectiles.append(Projectile(self))
+            self.sound.play('shoot')
+            print(f'{self.rect.x,self.rect.y} SHOOT')
