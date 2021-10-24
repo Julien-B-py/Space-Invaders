@@ -43,6 +43,9 @@ shields = ShieldGenerator().generate_shields()
 # -------------------- GAME MAIN LOOP --------------------
 while not game.exit:
 
+    # TODO: add game over when alien ships reach bottom
+    # TODO: add shield protection (for now they are just displayed but useless)
+
     # -------------------- USER INPUTS --------------------
     # Quit the game if the user click the close button
     for event in pygame.event.get():

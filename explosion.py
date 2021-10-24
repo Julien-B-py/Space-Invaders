@@ -2,7 +2,8 @@ import pygame.sprite
 
 
 class Explosion(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
+
         # Call the parent class (Sprite) constructor
         super().__init__()
         # Load the list of images which make up the animation
@@ -18,6 +19,10 @@ class Explosion(pygame.sprite.Sprite):
         self.rect.center = (x, y)
 
     def update(self):
+        """
+        Gets the next image of the explosion animation to display it.
+        Removes the sprite from the group when the animation is over.
+        """
         # If we didn"t reach the last image of the animation
         if self.current_index < len(self.images) - 1:
             # Increment the index value to update and display the next image of the animation
@@ -30,7 +35,10 @@ class Explosion(pygame.sprite.Sprite):
 
 
 # Executed on main.py launch
-def load_images():
+def load_images() -> list:
+    """
+    Returns a list containing all the images which are part of the explosion animation.
+    """
     # Create an empty list to store the images composing the explosion animation
     images = []
     for number in range(48):

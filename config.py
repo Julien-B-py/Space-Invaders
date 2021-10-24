@@ -1,3 +1,5 @@
+# Locations for aliens spawns
+# RGB colors vs points earned after alien ship destruction
 ALIENS = {
     "x_locations": list(range(50, 1100, 100)),
     "y_locations": [50, 100, 150, 200],
@@ -7,6 +9,7 @@ ALIENS = {
         30: (61, 44, 141)}
 }
 
+# Game window dimensions
 SCREEN = {
     "width": 1280,
     "height": 720,

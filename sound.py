@@ -11,7 +11,7 @@ class Sound:
             'move_down': pygame.mixer.Sound("sounds/move_down.ogg"),
         }
 
-    def play(self, sound_name):
+    def play(self, sound_name: str):
         """
         Begin specified Sound object playback
         """

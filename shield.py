@@ -9,10 +9,13 @@ class Shield:
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2))
         self.width = self.image.get_width()
         self.x = x
-        self.y = SCREEN.get("height")-110
+        self.y = SCREEN.get("height") - 110
         self.health_points = 20
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.Surface) -> None:
+        """
+        Draw the shield on the game screen surface.
+        """
         surface.blit(self.image, (self.x, self.y))
 
 
@@ -23,8 +26,11 @@ class ShieldGenerator:
         self.shield_width = self.image.get_width()
 
     def generate_shields(self, qty: int = 4) -> list:
-
-        if qty < 0:
+        """
+        Returns a list of a set amount of equidistant shields to protect the player ship.
+        Default value: 4 shields evenly distributed on the game screen.
+        """
+        if qty <= 0:
             return []
 
         qty = min(qty, 8)
