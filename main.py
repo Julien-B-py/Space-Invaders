@@ -44,7 +44,6 @@ shields = ShieldGenerator().generate_shields()
 while not game.exit:
 
     # TODO: add game over when alien ships reach bottom
-    # TODO: add shield protection (for now they are just displayed but useless)
 
     # -------------------- USER INPUTS --------------------
     # Quit the game if the user click the close button
@@ -65,6 +64,7 @@ while not game.exit:
             player.shoot()
 
         # -------------------- DISPLAY UPDATE --------------------
+        # -------------------- BACKGROUND DISPLAY --------------------
         screen.blit(game.background, (0, 0))
 
         # Draws the explosions Sprites contained in the group to the screen
@@ -75,6 +75,7 @@ while not game.exit:
         if not aliens or player.health_points == 0:
             game.is_over = True
 
+        # -------------------- ALIENS DISPLAY --------------------
         for alien in aliens:
             alien.move()
             alien.shoot()
@@ -85,6 +86,10 @@ while not game.exit:
                 Alien.move_down_required = True
                 break
 
+            if alien.rect.colliderect(player.rect):
+                game.is_over = True
+                player.contact = True
+
         if Alien.move_down_required:
             for alien in aliens:
                 alien.move_down()
@@ -93,10 +98,21 @@ while not game.exit:
         # Draws the aliens Sprites contained in the group to the screen
         aliens_grp.draw(screen)
 
+        # -------------------- PLAYER PROJECTILES BEHAVIOR --------------------
         for projectile in player.projectiles:
+            for shield in shields:
+                if shield.rect.colliderect(projectile.rect):
+                    projectile.explode()
+                    projectile.delete()
+                    shield.take_damage()
+
+                    if shield.health_points == 0:
+                        shields.remove(shield)
+
             projectile.move()
             projectile.draw(screen)
 
+        # -------------------- ALIEN PROJECTILES BEHAVIOR --------------------
         for alien in aliens:
             for projectile in alien.projectiles:
 
@@ -112,21 +128,33 @@ while not game.exit:
                     projectile.delete()
                     player.take_damage()
 
+                for shield in shields:
+                    if shield.rect.colliderect(projectile.rect):
+                        projectile.explode()
+                        projectile.delete()
+                        shield.take_damage()
+
+                        if shield.health_points == 0:
+                            shields.remove(shield)
+
                 projectile.move()
                 projectile.draw(screen)
 
+        # -------------------- SHIELDS DISPLAY --------------------
         for shield in shields:
             shield.draw(screen)
 
+        # -------------------- PLAYER DISPLAY --------------------
         player.draw(screen)
 
+        # -------------------- GAME HUD DISPLAY --------------------
         game.display_player_hp(screen, player.health_points)
         game.display_player_score(screen)
 
     # If game over (there are no enemy left or player has no more health points)
     else:
 
-        game.display_end_game_message(screen, player.health_points)
+        game.display_end_game_message(screen, player.health_points, player.contact)
 
     # Update the display to the screen
     pygame.display.update()

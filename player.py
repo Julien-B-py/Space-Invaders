@@ -21,6 +21,7 @@ class Player:
         self.explosions_grp = explosions_grp
         self.sound = sound
         self.aliens = aliens
+        self.contact = False
 
     def draw(self, surface: pygame.Surface) -> None:
         """

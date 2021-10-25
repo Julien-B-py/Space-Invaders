@@ -28,11 +28,13 @@ class Game:
         score_surface = self.hud_font.render(f"Score: {self.score}", True, (255, 255, 255))
         surface.blit(score_surface, ((SCREEN.get("width") - score_surface.get_width()) / 2, 10))
 
-    def display_end_game_message(self, surface: pygame.Surface, hp: int) -> None:
+    def display_end_game_message(self, surface: pygame.Surface, hp: int, contact: bool) -> None:
         """
         Draw the end game text surface on the center of the game screen surface.
         """
-        end_text = "YOU LOSE!" if hp == 0 else "YOU WIN!"
+        # If player hp = 0 or player contact is True (means an Alien ship has reached player position)
+        # Set the end message string value to "YOU LOSE"
+        end_text = "YOU LOSE!" if hp == 0 or contact else "YOU WIN!"
         text_surface = self.message_font.render(end_text, True, (255, 255, 255))
         surface.blit(text_surface, ((SCREEN.get("width") - text_surface.get_width()) / 2,
                                     (SCREEN.get("height") - text_surface.get_height()) / 2))

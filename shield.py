@@ -8,15 +8,23 @@ class Shield:
         self.image = pygame.image.load("img/sprites/shield.png")
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2))
         self.width = self.image.get_width()
-        self.x = x
-        self.y = SCREEN.get("height") - 110
-        self.health_points = 20
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = SCREEN.get("height") - 110
+        self.health_points = 5
 
     def draw(self, surface: pygame.Surface) -> None:
         """
         Draw the shield on the game screen surface.
         """
-        surface.blit(self.image, (self.x, self.y))
+        surface.blit(self.image, (self.rect.x, self.rect.y))
+
+    def take_damage(self) -> None:
+        """
+        Decrements shield health points by 1.
+        """
+        self.health_points -= 1
 
 
 class ShieldGenerator:
